@@ -5,9 +5,9 @@ from moviepy.editor import *
 from moviepy import *
 
 
-def sync_fade(in_file: Path):
+def sync_fade(in_file: Path, shift: float):
     video = VideoFileClip(str(in_file))
-    video = video.subclip(t_start=0.3, t_end=video.duration).fadein(3).fadeout(3)
+    video = video.subclip(t_start=shift, t_end=video.duration).fadein(3).fadeout(3)
     video.audio = video.audio.audio_fadein(3).audio_fadeout(3)
     return video
 
@@ -23,6 +23,13 @@ parser.add_argument(
     help="Folder for video output",
     default=Path.cwd()
 )
+parser.add_argument(
+    "-s",
+    "--shift",
+    type=float,
+    help="Seconds to shift video forward (i.e. cut at beginning)",
+    default=0.3
+)
 parser.add_argument("videos", type=Path, nargs="+")
 
 
@@ -33,5 +40,5 @@ if __name__=="__main__":
         out_file = args.output_folder / in_file.name
         if out_file.exists():
             raise FileExistsError(out_file)
-        video = sync_fade(in_file)
+        video = sync_fade(in_file, args.shift)
         video.write_videofile(str(out_file), bitrate="2M")
