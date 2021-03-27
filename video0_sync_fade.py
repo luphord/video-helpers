@@ -16,12 +16,21 @@ parser = ArgumentParser(
     description="Synchronize video and audio and add fade in/out for digitized video8",
     formatter_class=ArgumentDefaultsHelpFormatter,
 )
+parser.add_argument(
+    "-o",
+    "--output-folder",
+    type=Path,
+    help="Folder for video output",
+    default=Path.cwd()
+)
 parser.add_argument("videos", type=Path, nargs="+")
 
 
 if __name__=="__main__":
     args = parser.parse_args()
     for in_file in args.videos:
-        out_file = in_file.parent / f"{in_file.stem}-fade-sync{in_file.suffix}"
+        out_file = args.output_folder / in_file.name
+        if out_file.exists():
+            raise FileExistsError(out_file)
         video = sync_fade(in_file)
         video.write_videofile(str(out_file), bitrate="2M")
