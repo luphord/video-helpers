@@ -28,6 +28,7 @@ parser.add_argument("videos", type=Path, nargs="+")
 
 if __name__=="__main__":
     args = parser.parse_args()
+    args.output_folder.mkdir(parents=True, exist_ok=True)
     for in_file in args.videos:
         out_file = args.output_folder / in_file.name
         if out_file.exists():
