@@ -38,6 +38,13 @@ parser.add_argument(
     help="Seconds to fade video/audio in/out",
     default=3
 )
+parser.add_argument(
+    "-b",
+    "--bitrate",
+    type=str,
+    help="Seconds to fade video/audio in/out",
+    default="2M"
+)
 parser.add_argument("videos", type=Path, nargs="+")
 
 
@@ -49,4 +56,4 @@ if __name__=="__main__":
         if out_file.exists():
             raise FileExistsError(out_file)
         video = sync_fade(in_file, args.shift, args.fade)
-        video.write_videofile(str(out_file), bitrate="2M")
+        video.write_videofile(str(out_file), bitrate=args.bitrate)
