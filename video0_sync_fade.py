@@ -1,5 +1,6 @@
-from sys import argv
 from pathlib import Path
+from argparse import ArgumentParser, Namespace, ArgumentDefaultsHelpFormatter
+
 from moviepy.editor import *
 from moviepy import *
 
@@ -11,13 +12,16 @@ def sync_fade(in_file: Path):
     return video
 
 
+parser = ArgumentParser(
+    description="Synchronize video and audio and add fade in/out for digitized video8",
+    formatter_class=ArgumentDefaultsHelpFormatter,
+)
+parser.add_argument("videos", type=Path, nargs="+")
+
+
 if __name__=="__main__":
-
-    if len(argv) < 2:
-        print(f"Usage: {argv[0]} /path/to/video.mp4")
-        sys.exit(1)
-
-    in_file = Path(argv[1])
-    out_file = in_file.parent / f"{in_file.stem}-fade-sync{in_file.suffix}"
-    video = sync_fade(in_file)
-    video.write_videofile(str(out_file), bitrate="2M")
+    args = parser.parse_args()
+    for in_file in args.videos:
+        out_file = in_file.parent / f"{in_file.stem}-fade-sync{in_file.suffix}"
+        video = sync_fade(in_file)
+        video.write_videofile(str(out_file), bitrate="2M")
