@@ -7,8 +7,9 @@ from moviepy import *
 
 def sync_fade(in_file: Path, shift: float):
     video = VideoFileClip(str(in_file))
+    audio = video.audio
     video = video.subclip(t_start=shift, t_end=video.duration).fadein(3).fadeout(3)
-    video.audio = video.audio.audio_fadein(3).audio_fadeout(3)
+    video.audio = audio.subclip(t_start=0, t_end=audio.duration - shift).audio_fadein(3).audio_fadeout(3)
     return video
 
 
