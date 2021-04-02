@@ -41,7 +41,7 @@ parser.add_argument(
     "--bitrate",
     type=str,
     help="Seconds to fade video/audio in/out",
-    default="2M"
+    default="3M"
 )
 parser.add_argument("csvs", type=Path, nargs="+")
 
