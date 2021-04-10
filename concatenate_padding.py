@@ -62,7 +62,7 @@ parser.add_argument(
     "--padding",
     type=float,
     help="Seconds to pad/overlap between clips",
-    default=3,
+    default=1,
 )
 parser.add_argument(
     "-f", "--fade", type=float, help="Seconds to fade video/audio in/out", default=3
