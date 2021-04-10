@@ -54,7 +54,7 @@ parser.add_argument(
     "-o",
     "--output",
     type=Path,
-    help="Folder for video output",
+    help="Video output file",
     default=Path.cwd() / "out.mp4",
 )
 parser.add_argument(
